@@ -11,3 +11,8 @@ def read_root():
 @app.get("/posts")
 def get_posts():
     return posts
+
+@app.post("/posts")
+def save_post(post):
+    print(post)
+    return "I get it"
