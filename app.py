@@ -32,6 +32,6 @@ def get_posts():
 
 
 @app.post("/posts")
-def save_post(post):
+def save_post(post: Post):
     print(post)
     return "I get it"
