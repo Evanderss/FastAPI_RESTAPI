@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import Optional, Text
 from datetime import datetime
@@ -17,7 +17,7 @@ class Post(BaseModel):
     title: str
     author: str
     content: Text
-    created_at: datetime =  datetime.now()
+    created_at: datetime = datetime.now()
     published_at: Optional[datetime] 
     published: Optional[bool] = False
 
@@ -37,3 +37,11 @@ def save_post(post: Post):
     post.id = str(uuid())
     posts.append(post.dict())
     return posts[-1]
+
+
+@app.get('/posts/{post_id}')
+def get_post(post_id: str):
+    for post in posts:
+        if post["id"] == post_id:
+            return post
+    raise HTTPException(status_code=404, detail="Item not found")
